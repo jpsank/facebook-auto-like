@@ -9,4 +9,4 @@ To run, type:
 It will ask for your username/password, and then will open a Selenium webdriver to go through your account's news feed. It will like all posts with five likes or more and without any Angry or Sad Reactions (This can be reconfigured, however).
 
 ## Prerequisites
-You will need to follow the installation guide for [Selenium](https://selenium-python.readthedocs.io/installation.html), and install the [Chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+You will need to follow the installation guide for [Selenium](https://selenium-python.readthedocs.io/installation.html), and download a [Chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads).
