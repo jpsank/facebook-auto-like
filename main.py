@@ -1,6 +1,3 @@
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 from selenium.common import exceptions
 from selenium.webdriver.chrome.options import Options
@@ -58,7 +55,7 @@ class FacebookBot:
         self.wd.execute_script("window.scrollTo(0,0);")
         posts = self.get_posts()
         for p in posts:
-            if p["likes"]["Angry"] == 0 and p["likes"]["Sad"] == 0 and p["likes"]["Like"] > 5:
+            if p["likes"]["Angry"] == 0 and p["likes"]["Sad"] == 0 and p["likes"]["Like"] >= 5:
                 article = p["article"]
                 self.wd.execute_script("arguments[0].scrollIntoView();", article)
                 button = article.find_element_by_class_name("UFILikeLink")
