@@ -27,7 +27,7 @@ class FacebookBot:
     def convert_to_int(self,string):
         try:
             return int(string)
-        except TypeError:
+        except ValueError:
             if string.lower().endswith("k"):
                 return int(float(string[:-2])*1000)
 
