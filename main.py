@@ -29,7 +29,11 @@ class FacebookBot:
             return int(string)
         except ValueError:
             if string.lower().endswith("k"):
-                return int(float(string[:-2])*1000)
+                string = string[:-2]
+                try:
+                    return int(float(string)*1000)
+                except ValueError:
+                    return int(string)*1000
 
     def get_posts(self):
         articles = self.wd.find_elements_by_xpath("//*[@role='article'][not(@data-story_category)]")
@@ -82,10 +86,11 @@ class FacebookBot:
                     num += 1
                     self.wd.execute_script("arguments[0].click();",button)
                     try:
-                        p = article.find_element_by_tag_name("p").get_attribute("innerText").replace("\n"," ")
+                        p = article.find_element_by_tag_name("p").get_attribute("innerText")
+                        p = p.replace("\n"," ").encode().decode("utf-8")
                     except exceptions.NoSuchElementException:
                         p = ""
-                    if self.status_report: print('%s "%s"' % ("Unliked" if unlike else "Liked",p))
+                    if self.status_report: print(' - %s "%s"' % ("Unliked" if unlike else "Liked",p))
         if self.status_report: print("%s %s posts" % ("Unliked" if unlike else "Liked",num))
 
     def close(self):
