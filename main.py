@@ -90,6 +90,8 @@ class FacebookBot:
                         p = p.replace("\n"," ").encode().decode("utf-8")
                     except exceptions.NoSuchElementException:
                         p = ""
+                    except:
+                        p = ""
                     if self.status_report: print(' - %s "%s"' % ("Unliked" if unlike else "Liked",p))
         if self.status_report: print("%s %s posts" % ("Unliked" if unlike else "Liked",num))
 
