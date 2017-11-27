@@ -35,13 +35,17 @@ class FacebookBot:
                 data.append({"likes":likes,"button":button,"article":a})
         return data
 
-    def scroll(self):
+    def scroll(self,page_end=20):
         find_elem = None
         scroll_from = 0
         scroll_limit = self.wd.execute_script("return document.body.scrollHeight")
+        i = 0
         while not find_elem:
             self.wd.execute_script("window.scrollTo(%d, %d);" % (scroll_from, scroll_from + scroll_limit))
             scroll_from += scroll_limit
+            i += 1
+            if page_end and i >= page_end:
+                break
             try:
                 find_elem = self.wd.find_element_by_xpath("//span[@class='_38my']")
                 find_elem.click()
@@ -50,8 +54,8 @@ class FacebookBot:
             except exceptions.NoSuchElementException:
                 find_elem = None
 
-    def automate(self,unlike=False):
-        self.scroll()
+    def automate(self,unlike=False,page_end=20):
+        self.scroll(page_end)
         self.wd.execute_script("window.scrollTo(0,0);")
         posts = self.get_posts()
         for p in posts:
@@ -67,7 +71,18 @@ class FacebookBot:
         self.wd.close()
 
 
-bot = FacebookBot(input("Username: "),input("Password: "))
+username = input("Username: ")
+password = input("Password: ")
 
-bot.automate()
+pages = False
+while pages is False:
+    inp = input("How many pages to go through? (default 20, 'all' for whole News Feed): ")
+    if inp.isdigit():
+        pages = int(inp)
+    elif inp == "all":
+        pages = None
+
+bot = FacebookBot(username,password)
+
+bot.automate(page_end=pages)
 bot.close()
